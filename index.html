@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>dice</title>
+<style>
+  /* 全体のボックスサイズをborder-boxにしてズレを防ぐ */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* body全体のスタイル */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 文字フォント */
+    background: linear-gradient(135deg, #FFE29F 0%, #FFA99F 100%); /* 夏の朝日のイメージ、オレンジ系グラデ */
+    color: #5B3A00; /* 暖かみのある柔らかいブラウン系テキストカラー */
+    margin: 0; /* 余白なし */
+    min-height: 100vh; /* 画面全体の高さ */
+    display: flex; /* フレックスボックスで中央揃え */
+    justify-content: center; /* 横方向中央揃え */
+    align-items: center; /* 縦方向中央揃え */
+    padding: 1rem; /* 周囲に余白 */
+  }
+
+  /* メインコンテナのスタイル */
+  main {
+    background: #fff8e1; /* クリーム色で優しい印象 */
+    padding: 2rem 2.5rem; /* 内側余白 */
+    border-radius: 16px; /* 角丸 */
+    box-shadow: 0 10px 30px rgba(255, 160, 160, 0.3); /* 柔らかな影 */
+    max-width: 400px; /* 最大幅 */
+    width: 100%; /* 幅は親に合わせる */
+  }
+
+  /* タイトルのスタイル */
+  h1 {
+    text-align: center; /* 中央揃え */
+    margin: 0 0 1rem 0; /* 下マージン */
+    font-weight: 700; /* 太字 */
+    color: #d35d00; /* 暖かいオレンジ色 */
+  }
+
+  /* ラベルのスタイル */
+  label {
+    display: block; /* ブロック要素化 */
+    margin-top: 1rem; /* 上マージン */
+    font-weight: 600; /* やや太字 */
+    color: #7f4a00; /* 少し暗めの茶色 */
+  }
+
+  /* 数値入力フォームのスタイル */
+  input[type=number] {
+    width: 100%; /* 横幅いっぱい */
+    padding: 0.5rem 0.7rem; /* 内側余白 */
+    font-size: 1rem; /* 文字サイズ */
+    border-radius: 8px; /* 角丸 */
+    border: 1.5px solid #d97400; /* オレンジ系の境界線 */
+    margin-top: 0.3rem; /* 上余白 */
+    transition: border-color 0.3s ease; /* フォーカス時の変化アニメ */
+  }
+  /* フォーカス時のスタイル */
+  input[type=number]:focus {
+    outline: none; /* デフォルトのアウトライン消す */
+    border-color: #ffa94d; /* 明るいオレンジに変更 */
+    box-shadow: 0 0 5px #ffa94d; /* 光彩 */
+  }
+
+  /* ボタンのスタイル */
+  button {
+    margin-top: 1.8rem; /* 上余白 */
+    width: 100%; /* 横幅いっぱい */
+    padding: 0.75rem; /* 内側余白 */
+    font-size: 1.1rem; /* 少し大きめ */
+    font-weight: 700; /* 太字 */
+    border: none; /* 境界線なし */
+    border-radius: 12px; /* 角丸 */
+    background: linear-gradient(45deg, #ffb347, #ffcc33); /* グラデーション */
+    color: #5b3a00; /* 文字色 */
+    cursor: pointer; /* ホバー時にポインター表示 */
+    box-shadow: 0 4px 12px rgba(255, 204, 51, 0.6); /* ボタンの影 */
+    transition: background 0.3s ease; /* 背景色のスムーズ変化 */
+  }
+  /* ホバー時のボタン色 */
+  button:hover {
+    background: linear-gradient(45deg, #ffcc33, #ffb347);
+  }
+  /* クリック時の縮小アニメ */
+  button:active {
+    transform: scale(0.98);
+  }
+
+  /* 結果表示エリア */
+  #result {
+    margin-top: 2rem; /* 上余白 */
+    padding: 1rem; /* 内側余白 */
+    background: #fff3cd; /* 優しいイエロー背景 */
+    border: 1px solid #ffecb5; /* 薄い黄色の境界線 */
+    border-radius: 12px; /* 角丸 */
+    font-size: 1.1rem; /* 文字サイズ */
+    color: #5b3a00; /* テキスト色 */
+    min-height: 3rem; /* 最低高さ */
+    white-space: pre-wrap; /* 改行を反映 */
+  }
+
+  /* スマホなど画面幅480px以下の時のレスポンシブ対応 */
+  @media (max-width: 480px) {
+    main {
+      padding: 1.5rem 1.8rem; /* 内側余白を少し小さく */
+      max-width: 320px; /* 最大幅を狭く */
+    }
+    button {
+      font-size: 1rem; /* フォントサイズ少し縮小 */
+      padding: 0.6rem; /* パディング少し縮小 */
+    }
+  }
+</style>
+</head>
+<body>
+  <!-- メインコンテンツ -->
+  <main>
+    <h1>da-ice 🎲</h1>
+
+    <!-- 面数入力 -->
+    <label for="sides">面数 (2〜1000):</label>
+    <input
+      type="number"
+      id="sides"
+      name="sides"
+      min="2"
+      max="1000"
+      value="6"
+      aria-label="面数（2から1000）"
+    />
+
+    <!-- 個数入力 -->
+    <label for="count">個数 (1〜20):</label>
+    <input
+      type="number"
+      id="count"
+      name="count"
+      min="1"
+      max="20"
+      value="1"
+      aria-label="個数（1から20）"
+    />
+
+    <!-- サイコロ振るボタン -->
+    <button id="rollBtn" type="button">サイコロを振る！</button>
+
+    <!-- 結果表示 -->
+    <div id="result" role="region" aria-live="polite"></div>
+  </main>
+
+  <script>
+    // ボタンと結果表示エリアのDOM取得
+    const rollBtn = document.getElementById('rollBtn');
+    const resultDiv = document.getElementById('result');
+
+    // API候補URLリスト（順に試す）
+    const apiCandidates = [
+      "https://api.hamusata.f5.si/api/dice",
+      "https://dice-api.hamusata.workers.dev/"
+    ];
+
+    /**
+     * 複数のAPIを順に試して最初に成功したレスポンスを返す関数
+     * @param {string[]} urls APIのベースURL配列
+     * @returns {Promise<Object>} APIレスポンスのJSONオブジェクト
+     */
+    async function fetchFromApis(urls) {
+      for (const url of urls) {
+        try {
+          // APIへリクエスト
+          const res = await fetch(url);
+          // HTTPステータスOKでなければ例外
+          if (!res.ok) throw new Error("APIエラー");
+          // JSONパースして返す
+          const data = await res.json();
+          return data;
+        } catch {
+          // 失敗したら次のAPIを試す
+          continue;
+        }
+      }
+      // すべてのAPIが失敗した場合は例外を投げる
+      throw new Error("すべてのAPIが応答しませんでした");
+    }
+
+    // ボタン押下時のイベント処理
+    rollBtn.addEventListener('click', async () => {
+      // 入力値を取得し数値変換
+      const sides = Number(document.getElementById('sides').value);
+      const count = Number(document.getElementById('count').value);
+
+      // バリデーション（範囲チェック）
+      if (sides < 2 || sides > 1000 || count < 1 || count > 20) {
+        resultDiv.textContent = '面数は2〜1000、個数は1〜20の範囲で入力してください！';
+        return;
+      }
+
+      // 処理中メッセージ表示
+      resultDiv.textContent = '振っています...';
+
+      // クエリパラメータ生成
+      const query = `?sides=${sides}&count=${count}`;
+      // API URLリストにパラメータ付加
+      const urlsWithParams = apiCandidates.map(base => base + query);
+
+      try {
+        // API呼び出し
+        const data = await fetchFromApis(urlsWithParams);
+        // 結果表示。APIメッセージ＋詳細（振った数字と合計）
+        resultDiv.textContent = data.message + 
+          `\n詳細: ${data.rolls?.join(', ') || ''} (合計: ${data.total || ''})`;
+      } catch {
+        // エラー時は何も表示しない（空欄）
+        resultDiv.textContent = '';
+      }
+    });
+  </script>
+</body>
+</html>
