@@ -3,217 +3,280 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>dice</title>
-
-  <!-- ファビコン（ブラウザタブのアイコン）を指定 -->
-  <link rel="icon" href="https://home.hamusata.f5.si/icon.svg" type="image/svg+xml" />
-
+  <title>Omikuji</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
     }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #FFE29F 0%, #FFA99F 100%);
-      color: #5B3A00;
-      margin: 0;
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: linear-gradient(to bottom, #ffcf91 0%, #a96bf8 100%);
       min-height: 100vh;
+      color: #333;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      padding: 1rem;
-    }
-
-    main {
-      background: #fff8e1;
-      padding: 2rem 2.5rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(255, 160, 160, 0.3);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    h1 {
+      justify-content: center;
+      padding: 2rem 1rem;
       text-align: center;
-      margin: 0 0 1rem 0;
-      font-weight: 700;
-      color: #d35d00;
     }
-
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 600;
-      color: #7f4a00;
+    h1 {
+      font-size: 2rem;
+      color: #f0f0f0;
+      text-shadow: 0 0 8px rgba(0,0,0,0.7);
+      margin-bottom: 2rem;
     }
-
-    input[type=number] {
-      width: 100%;
-      padding: 0.5rem 0.7rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1.5px solid #d97400;
-      margin-top: 0.3rem;
-      transition: border-color 0.3s ease;
-    }
-
-    input[type=number]:focus {
-      outline: none;
-      border-color: #ffa94d;
-      box-shadow: 0 0 5px #ffa94d;
-    }
-
     button {
-      margin-top: 1.8rem;
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1.1rem;
-      font-weight: 700;
+      background: rgba(20, 20, 20, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ddd;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(45deg, #ffb347, #ffcc33);
-      color: #5b3a00;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-size: 1.25rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 204, 51, 0.6);
-      transition: background 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     button:hover:not(:disabled) {
-      background: linear-gradient(45deg, #ffcc33, #ffb347);
+      background: rgba(30, 30, 30, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }
-
-    button:active:not(:disabled) {
-      transform: scale(0.98);
-    }
-
     button:disabled {
-      background: #ddd;
-      color: #999;
       cursor: not-allowed;
-      box-shadow: none;
+      opacity: 0.6;
     }
-
+    #countdown-timer {
+      margin-top: 1rem;
+      color: #fff8dd;
+      font-size: 1rem;
+      font-weight: 600;
+      user-select: none;
+    }
     #result {
       margin-top: 2rem;
-      padding: 1rem;
-      background: #fff3cd;
-      border: 1px solid #ffecb5;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      color: #5b3a00;
-      min-height: 3rem;
-      white-space: pre-wrap;
+      max-width: 400px;
+      width: 90vw;
+      font-size: 1.5rem;
+      line-height: 1.5;
+      user-select: none;
+      text-align: center;
+      background: transparent;
+      box-shadow: none;
+      border-radius: 16px;
+      padding: 0;
+      color: transparent;
+      transition: all 0.3s ease;
     }
-
+    #result.visible {
+      background: rgba(20,20,20,0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #fff8dd;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    .kanji {
+      font-weight: bold;
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .comment {
+      font-style: italic;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .timestamp {
+      font-size: 0.85rem;
+      color: #ccc;
+      user-select: none;
+    }
+    footer#footer-copy {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      user-select: none;
+    }
+    a.link {
+      color: #ccc;
+      text-decoration: none;
+    }
+    a.link:hover, a.link:focus {
+      text-decoration: underline;
+    }
     @media (max-width: 480px) {
-      main {
-        padding: 1.5rem 1.8rem;
-        max-width: 320px;
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
       }
       button {
-        font-size: 1rem;
-        padding: 0.6rem;
+        font-size: 1.1rem;
+        padding: 0.8rem 1.5rem;
+        border-radius: 12px;
+      }
+      #result.visible {
+        font-size: 1.2rem;
+        padding: 1rem 1.2rem;
+      }
+      .kanji {
+        font-size: 1.8rem;
+      }
+      #countdown-timer {
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>da-ice 🎲</h1>
 
-    <label for="sides">面数 (2〜1000):</label>
-    <input
-      type="number"
-      id="sides"
-      name="sides"
-      min="2"
-      max="1000"
-      value="6"
-      aria-label="面数（2から1000）"
-    />
+<h1>おみくじを引く / Draw a Fortune</h1>
+<button id="omikuji-button" onclick="drawOmikuji()">おみくじを引く / Draw</button>
+<div id="countdown-timer" aria-live="polite"></div>
+<div id="result" aria-live="polite"></div>
 
-    <label for="count">個数 (1〜20):</label>
-    <input
-      type="number"
-      id="count"
-      name="count"
-      min="1"
-      max="20"
-      value="1"
-      aria-label="個数（1から20）"
-    />
+<footer id="footer-copy"></footer>
 
-    <button id="rollBtn" type="button">サイコロを振る！</button>
+<script>
+  const STORAGE_KEY = "omikuji_result";
+  const API_MAIN = "https://api.hamusata.f5.si/api/omikuji";
+  const API_BACKUP = "https://omikuji-api.hamusata.workers.dev/api/omikuji";
+  const WAIT_SECONDS = 60; // ボタン無効時間（秒）
 
-    <div id="result" role="region" aria-live="polite"></div>
-  </main>
+  const resultBox = document.getElementById("result");
+  const timerBox = document.getElementById("countdown-timer");
+  const button = document.getElementById("omikuji-button");
 
-  <script>
-    const apiCandidates = [
-      "https://api.hamusata.f5.si/api/dice",
-      "https://dice-api.hamusata.workers.dev/api/dice"
-    ];
+  let countdownInterval;
 
-    const rollBtn = document.getElementById('rollBtn');
-    const resultDiv = document.getElementById('result');
+  function showResult(result, comment, timestamp) {
+    resultBox.innerHTML = `
+      <div class="kanji">${result}</div>
+      <div class="comment">${comment}</div>
+      <div class="timestamp">更新時間 (JST): ${timestamp}</div>
+    `;
+    resultBox.classList.add("visible");
+  }
 
-    // 操作可能フラグ（初期true：すぐ押せる）
-    let canRoll = true;
+  function updateCountdown(seconds) {
+    const remainMin = Math.floor(seconds / 60);
+    const remainSec = seconds % 60;
+    timerBox.textContent = `あと${remainMin}分${remainSec}秒待ってね / Please wait ${remainMin} min ${remainSec} sec`;
+  }
 
-    // 値を制限しフォームに反映
-    function clampAndSet(id, value, min, max) {
-      const clamped = Math.min(Math.max(value, min), max);
-      const input = document.getElementById(id);
-      if (input.value != clamped) input.value = clamped;
-      return clamped;
+  function clearCountdown() {
+    clearInterval(countdownInterval);
+    timerBox.textContent = "";
+    button.disabled = false;
+  }
+
+  function startCountdown(seconds) {
+    button.disabled = true;
+    updateCountdown(seconds);
+
+    countdownInterval = setInterval(() => {
+      seconds--;
+      if (seconds <= 0) {
+        clearCountdown();
+      } else {
+        updateCountdown(seconds);
+      }
+    }, 1000);
+  }
+
+  function loadStoredResult() {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!data) return false;
+
+    const now = Date.now();
+    const elapsed = now - data.timestamp;
+
+    if (elapsed < 5 * 60 * 1000) { // 5分以内は結果表示
+      showResult(data.result, data.comment, data.timestampJST);
+
+      if (elapsed < WAIT_SECONDS * 1000) {
+        // ボタン無効＆カウントダウン開始
+        startCountdown(WAIT_SECONDS - Math.floor(elapsed / 1000));
+      } else {
+        button.disabled = false;
+      }
+      return true;
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
+      return false;
+    }
+  }
+
+  async function drawOmikuji() {
+    if (button.disabled) return;
+
+    button.disabled = true;
+    timerBox.textContent = "おみくじ取得中...";
+    resultBox.classList.remove("visible");
+    resultBox.textContent = "";
+
+    try {
+      let res = await fetch(API_MAIN);
+      if (!res.ok) res = await fetch(API_BACKUP);
+      const data = await res.json();
+
+      // UTCからJST変換＆フォーマット
+      const utcDate = new Date(data.timestamp);
+      const jstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000);
+      const formattedTime = jstDate.toLocaleString('ja-JP', {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+
+      showResult(data.result, data.comment, formattedTime);
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        result: data.result,
+        comment: data.comment,
+        timestamp: Date.now(),
+        timestampJST: formattedTime
+      }));
+
+      startCountdown(WAIT_SECONDS);
+    } catch (e) {
+      resultBox.textContent = "通信エラーが発生しました。後でもう一度試してください。\nNetwork error occurred. Please try again later.";
+      resultBox.classList.add("visible");
+      button.disabled = false;
+      timerBox.textContent = "";
+    }
+  }
+
+  window.addEventListener('load', () => {
+    loadStoredResult();
+  });
+
+  // フッター動的表示コード
+  (function() {
+    const baseYear = 2025;
+    const currentYear = new Date().getFullYear();
+    const hostname = location.hostname;
+    const footer = document.getElementById("footer-copy");
+
+    let footerHTML = "";
+
+    if (hostname === "hamuzon.github.io") {
+      footerHTML = `&copy; ${baseYear}${currentYear > baseYear ? "–" + currentYear : ""} <a class="link" href="https://hamuzon.github.io" target="_blank" rel="noopener noreferrer">@hamuzon</a>`;
+    } else if (hostname.includes("omikuji.hamusata.f5.si")) {
+      footerHTML = `&copy; ${baseYear}${currentYear > baseYear ? "–" + currentYear : ""} <a class="link" href="https://omikuji.hamusata.f5.si" target="_blank" rel="noopener noreferrer">おみくじ / Omikuji</a>`;
+    } else {
+      footerHTML = `&copy; ${baseYear}${currentYear > baseYear ? "–" + currentYear : ""} QR Code Generator`;
     }
 
-    async function fetchFromApis(urls) {
-      for (const url of urls) {
-        try {
-          const res = await fetch(url);
-          if (!res.ok) throw new Error(`APIエラー：${res.status}`);
-          return await res.json();
-        } catch (error) {
-          console.warn(`API呼び出し失敗：${url} - ${error.message}`);
-          continue;
-        }
-      }
-      throw new Error("すべてのAPIが応答しませんでした。");
+    if (footer) {
+      footer.innerHTML = footerHTML;
     }
+  })();
+</script>
 
-    rollBtn.addEventListener('click', async () => {
-      if (!canRoll) {
-        resultDiv.textContent = "処理中です。少し待ってくださいね。";
-        return;
-      }
-
-      canRoll = false;
-      rollBtn.disabled = true;
-
-      // 入力値補正＆反映
-      const sides = clampAndSet('sides', Number(document.getElementById('sides').value), 2, 1000);
-      const count = clampAndSet('count', Number(document.getElementById('count').value), 1, 20);
-
-      resultDiv.textContent = '処理中です。しばらくお待ちください。';
-
-      const query = `?sides=${sides}&count=${count}`;
-      const urlsWithParams = apiCandidates.map(base => base + query);
-
-      try {
-        const data = await fetchFromApis(urlsWithParams);
-        resultDiv.textContent = `${data.message}\n詳細: ${data.rolls?.join(', ') || ''} (合計: ${data.total || ''})`;
-      } catch (error) {
-        resultDiv.textContent = 'エラーが発生しました。' + error.message;
-      } finally {
-        // 5秒待ってから操作可能に戻す
-        setTimeout(() => {
-          canRoll = true;
-          rollBtn.disabled = false;
-        }, 5000);
-      }
-    });
-  </script>
 </body>
 </html>
