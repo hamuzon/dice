@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 - Not Found</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #FFE29F 0%, #FFA99F 100%);
+      color: #5B3A00;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    main {
+      background: #fff8e1;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(255, 160, 160, 0.3);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 4rem;
+      color: #d35d00;
+      margin-bottom: 0.3em;
+      letter-spacing: 0.1em;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #7f4a00;
+      margin: 0.4em 0;
+      line-height: 1.6;
+    }
+
+    .subtext {
+      font-size: 0.95rem;
+      color: #a18a68;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75em 2em;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #5b3a00;
+      background: linear-gradient(45deg, #ffb347, #ffcc33);
+      box-shadow: 0 4px 12px rgba(255, 204, 51, 0.6);
+      transition: background 0.3s ease, transform 0.15s ease;
+    }
+
+    a.back:hover {
+      background: linear-gradient(45deg, #ffcc33, #ffb347);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #a18a68;
+      user-select: none;
+    }
+
+    a.link {
+      color: #7f4a00;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a.link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 3rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>404</h1>
+    <p>ページが見つかりません</p>
+    <p class="subtext">Sorry, Not Found.</p>
+
+    <a id="backLink" class="back" href="/">
+      トップページへ戻る
+    </a>
+
+    <footer id="footer-copy"></footer>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (location.hostname === 'hamuzon.github.io') {
+        document.getElementById('backLink').href = 'https://hamuzon.github.io/dice/';
+      }
+    });
+
+    (() => {
+      const footer = document.getElementById("footer-copy");
+      if (!footer) return;
+
+      const baseYear = 2025;
+      const currentYear = new Date().getFullYear();
+      const hostname = location.hostname;
+      const yearString = `${baseYear}${currentYear > baseYear ? "–" + currentYear : ""}`;
+
+      let footerHTML = "";
+
+      if (hostname === "hamuzon.github.io") {
+        footerHTML = `&copy; ${yearString} <a class="link" href="https://hamuzon.github.io" target="_blank">@hamuzon</a>`;
+      } else if (hostname.includes("hamuzon-jp.f5.si")) {
+        footerHTML = `&copy; ${yearString} <a class="link" href="https://hamuzon-jp.f5.si" target="_blank">@hamuzon</a>`;
+      } else if (hostname.includes("hamusata.f5.si")) {
+        footerHTML = `&copy; ${yearString} <a class="link" href="https://hamusata.f5.si" target="_blank">@hamusata</a>`;
+      } else {
+        footerHTML = `&copy; ${yearString} dice app`;
+      }
+
+      footer.innerHTML = footerHTML;
+    })();
+  </script>
+</body>
+</html>
