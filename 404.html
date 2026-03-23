@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>404 - Not Found</title>
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -75,16 +75,19 @@
       margin-top: 1.5rem;
       font-size: 0.85rem;
       color: #a18a68;
+      -webkit-user-select: none;
       user-select: none;
     }
 
-    a.link {
+    a:not(.back) {
       color: #7f4a00;
       text-decoration: none;
       font-weight: 600;
+      transition: color 0.2s ease;
     }
 
-    a.link:hover {
+    a:not(.back):hover {
+      color: #d35d00;
       text-decoration: underline;
     }
 
