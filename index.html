@@ -199,8 +199,8 @@ a:hover {
 <label for="sides">面数 (2〜1000):</label>
 <input type="number" id="sides" value="6" min="2" max="1000" title="サイコロの面の数">
 
-<label for="count">個数 (1〜20):</label>
-<input type="number" id="count" value="1" min="1" max="20" title="サイコロを振る個数">
+<label for="count">個数 (1〜1000):</label>
+<input type="number" id="count" value="1" min="1" max="1000" title="サイコロを振る個数">
 
 <button id="rollBtn">サイコロを振る！</button>
 
@@ -249,7 +249,7 @@ rollBtn.addEventListener('click', async () => {
     resultDiv.textContent = '処理中です。しばらくお待ちください。';
 
     const sides = clampAndSet('sides', Number(document.getElementById('sides').value), 2, 1000);
-    const count = clampAndSet('count', Number(document.getElementById('count').value), 1, 20);
+    const count = clampAndSet('count', Number(document.getElementById('count').value), 1, 1000);
 
     const query = `?sides=${sides}&count=${count}`;
     const urlsWithParams = apiCandidates.map(base => base + query);
