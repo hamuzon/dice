@@ -14,7 +14,6 @@ body {
     padding: 1rem;
 }
 
-/* カード */
 main {
     background: #fff8e1;
     padding: 2rem 2.5rem;
@@ -27,7 +26,6 @@ main {
     align-items: center;
 }
 
-/* タイトル */
 h1 {
     text-align: center;
     margin: 0 0 1rem 0;
@@ -35,7 +33,6 @@ h1 {
     color: #d35d00;
 }
 
-/* 入力 */
 label {
     display: block;
     margin-top: 1rem;
@@ -60,7 +57,6 @@ input[type=number]:focus {
     box-shadow: 0 0 5px #ffa94d;
 }
 
-/* ボタン */
 button {
     margin-top: 1.8rem;
     width: 100%;
@@ -91,7 +87,6 @@ button:disabled {
     box-shadow: none;
 }
 
-/* 結果エリア */
 #result {
     margin-top: 2rem;
     padding: 1rem;
@@ -112,7 +107,6 @@ button:disabled {
     word-break: break-word;
 }
 
-/* emoji修正 */
 .emoji {
     font-size: 2.2rem;
     line-height: 1;
@@ -120,11 +114,9 @@ button:disabled {
     max-width: 100%;
     text-align: center;
 
-    /* はみ出し防止 */
     overflow: hidden;
 }
 
-/* 詳細 */
 .details {
     font-size: 0.9rem;
     color: #7f4a00;
@@ -173,7 +165,6 @@ a:hover {
     }
 }
 
-/* 横画面 */
 @media (max-height: 500px) {
     body {
         align-items: flex-start;
