@@ -52,12 +52,18 @@ rollBtn.addEventListener('click', async () => {
         }
 
         if (data.message) {
-            const formattedMessage = data.message.replace('、', '、<br>');
+            let formattedMessage = data.message;
+            if (data.rolls && data.rolls.length > 1) {
+                formattedMessage = formattedMessage.replace(/、結果は.+?、合計は/, '、<br>合計は');
+            }
+            if (!formattedMessage.includes('<br>')) {
+                formattedMessage = formattedMessage.replace('、', '、<br>');
+            }
             html += `<div>${formattedMessage}</div>`;
         }
 
         if (data.rolls && data.rolls.length > 1) {
-            html += `<div class="details">出目: ${data.rolls.join(", ")}</div>`;
+            html += `<div class="details rolls-container">出目: ${data.rolls.join(", ")}</div>`;
         }
 
         if (showStats && data.stats) {
@@ -93,7 +99,7 @@ rollBtn.addEventListener('click', async () => {
 });
 
 // フッター初期化
-(function() {
+(function () {
     const baseYear = 2025;
     const currentYear = new Date().getFullYear();
     const hostname = location.hostname;
